@@ -1,2 +1,2 @@
-# Team6_LimSumpter
-Team-leads: Jean Lim and Matthew Sumpter
+# Team6_LimSharma
+Team-leads: Jean Lim and Ravi Sharma
