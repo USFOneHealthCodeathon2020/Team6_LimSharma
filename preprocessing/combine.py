@@ -1,11 +1,18 @@
 import csv
 import pandas as pd
 
-pantheria_1 = "pantheria_combined.csv"
-# pantheria_2 = "PanTHERIA_1-0_WR93_Aug2008.csv"
-micro_file = "filtered_internal_animalia.csv"
+# pantheria_1 = "../data/species.csv"
+# # pantheria_2 = "PanTHERIA_1-0_WR93_Aug2008.csv"
+# micro_file = "../data/caviede_lower.csv"
 
-outfile = "test.csv"
+# outfile = "../data/test.csv"
+
+pantheria_1 = "../data/panteria_combined.csv"
+# pantheria_2 = "PanTHERIA_1-0_WR93_Aug2008.csv"
+micro_file = "../data/test.csv"
+
+outfile = "../data/test2.csv"
+
 
 df_1 = pd.read_csv(pantheria_1)
 # df_2 = pd.read_csv(pantheria_2)
@@ -14,7 +21,7 @@ df_3 = pd.read_csv(micro_file)
 # df_merged = df_3.merge(df_1, left_on="host_scientific_name", right_on=df_2.columns[4], how="outer")
 # df_merged = df_3.merge(df_2, left_on="host_scientific_name", right_on=df_2.columns[4], how="outer")
 
-df_merged = pd.merge(df_3, df_1, left_on="host_scientific_name", right_on=df_1.columns[4], how="left")
+df_merged = pd.merge(df_3, df_1, left_on=df_3.columns[0], right_on=df_1.columns[4], how="right")
 # df_merged = pd.merge(df_merged, df_2, left_on="host_scientific_name", right_on=df_2.columns[4], how="left")
 
 df_merged.to_csv(outfile, index=False)
