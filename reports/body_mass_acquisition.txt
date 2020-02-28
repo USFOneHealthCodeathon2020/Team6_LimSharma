@@ -1,0 +1,2 @@
+The body mass data was pulled from 3 sources - the Pantheria archives (http://esapubs.org/archive/ecol/E090/184/), the Caviede Vidal dataset, and the Encyclopedia of Life. 
+They were matched with the microbiome metadata through their scientific names.
