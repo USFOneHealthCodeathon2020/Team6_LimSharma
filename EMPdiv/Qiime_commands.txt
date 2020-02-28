@@ -1,0 +1,41 @@
+!/bin/bash
+
+module add anaconda3/5.1.0
+cd /home/jslim/
+source ~/.bashrc
+conda activate qiime2-2019.7
+
+DIR="/scratch1/jslim"
+cd $DIR
+
+qiime tools import --input-path EMP.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path EMP.qza
+qiime feature-table summarize --i-table EMP.qza --o-visualization $DIR/EMP.qzv
+qiime diversity core-metrics --i-table EMP.qza --p-sampling-depth 1000 --m-metadata-file EMPmetadata.txt --p-n-jobs 10 --output-dir EMPdiv 
+qiime diversity beta-group-significance --i-distance-matrix EMPdiv/bray_curtis_distance_matrix.qza --m-metadata-file EMPmetadata.txt --m-metadata-column cluster 
+--p-pairwise --o-visualization braycluster.qzv
+qiime diversity beta-group-significance --i-distance-matrix EMPdiv/bray_curtis_distance_matrix.qza --m-metadata-file EMPmetadata.txt --m-metadata-column bodymass
+ --p-pairwise --o-visualization braymass.qzv
+qiime diversity beta-group-significance --i-distance-matrix EMPdiv/bray_curtis_distance_matrix.qza --m-metadata-file EMPmetadata.txt --m-metadata-column host_cla
+ss --p-pairwise --o-visualization EMPdiv/brayclass.qzv
+qiime diversity filter-distance-matrix --i-distance-matrix EMPdiv/bray_curtis_distance_matrix.qza --m-metadata-file EMPmetadata.txt --p-where "[cluster]='1'" --o
+-filtered-distance-matrix EMPdiv/cluster1.qza
+qiime diversity filter-distance-matrix --i-distance-matrix EMPdiv/bray_curtis_distance_matrix.qza --m-metadata-file EMPmetadata.txt --p-where "[cluster]='2'" --o
+-filtered-distance-matrix EMPdiv/cluster2.qza
+qiime diversity filter-distance-matrix --i-distance-matrix EMPdiv/bray_curtis_distance_matrix.qza --m-metadata-file EMPmetadata.txt --p-where "[cluster]='3'" --o
+-filtered-distance-matrix EMPdiv/cluster3.qza
+qiime diversity filter-distance-matrix --i-distance-matrix EMPdiv/bray_curtis_distance_matrix.qza --m-metadata-file EMPmetadata.txt --p-where "[cluster]='4'" --o
+-filtered-distance-matrix EMPdiv/cluster4.qza
+qiime diversity filter-distance-matrix --i-distance-matrix EMPdiv/bray_curtis_distance_matrix.qza --m-metadata-file EMPmetadata.txt --p-where "[cluster]='5'" --o
+-filtered-distance-matrix EMPdiv/cluster5.qza
+
+for i in `seq 1 5`
+do
+qiime diversity beta-group-significance --i-distance-matrix EMPdiv/cluster"$i".qza --m-metadata-file EMPmetadata.txt --m-metadata-column bodymass --p-pairwise --
+o-visualization EMPdiv/"$i".mass.qzv
+qiime diversity beta-group-significance --i-distance-matrix EMPdiv/cluster"$i".qza --m-metadata-file EMPmetadata.txt --m-metadata-column diet --p-pairwise --o-vi
+sualization EMPdiv/"$i".diet.qzv
+qiime diversity beta-group-significance --i-distance-matrix EMPdiv/cluster"$i".qza --m-metadata-file EMPmetadata.txt --m-metadata-column host_class --p-pairwise 
+--o-visualization EMPdiv/"$i".hostclass.qzv
+qiime diversity beta-group-significance --i-distance-matrix EMPdiv/cluster"$i".qza --m-metadata-file EMPmetadata.txt --m-metadata-column lifestage --p-pairwise --
+o-visualization EMPdiv/"$i".life.qzv
+done
