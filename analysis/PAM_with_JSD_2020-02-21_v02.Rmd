@@ -1,0 +1,183 @@
+---
+title: "Animal"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# install packages
+```{r pressure, echo=FALSE}
+#install.packages("read_biom(biom_file)")
+install.packages("biomformat")
+BiocManager::install("biomformat")
+require(biomformat)
+# dd <- read_biom(biom_file ="./data/13059_2019_1908_MOESM6_ESM.biom")
+```
+
+```{r}
+#data=read.table("./data/MetaHIT_SangerSamples.genus.txt", header=T, row.names=1, dec=".", sep="\t")
+data=read.table("./otutable_without_Plant.txt", header=T, row.names=1, dec=".", sep="\t")
+  #data[1:3, 1:3]
+  #dim(data) # 726
+  #data[17540:17544, 1:10]
+  #barplot( colSums(data) )
+  #barplot(  sort( rowSums(data) / 726, decreasing = T ), ylim=c(0, 0.3) )
+
+p.sample <- rowSums( data>0 )/726 
+n.sample <- rowSums( data>0 )
+  barplot( p.sample, las=2)
+  barplot( 726*p.sample, las=2)
+  title("# of samples bearing OTU")
+  range(p.sample)
+  
+  which( rowSums( data>0 )/726 < 0.01)  
+  0.05*726
+  #range(p.sample)
+  #barplot(sort(p.sample)[1:1000], ylim=c(0, 0.1), las=2)
+
+##   
+id.rare <- which(p.sample < 0.05)
+  length(p.sample)
+  length(id.rare)
+
+#id.major <- which(p.sample > 0.01)
+#  length(id.major)
+id.major <- which(n.sample > 2)
+  length(id.major) # 6,548
+  #data=data[-1,]
+  data[1:3, 1:3]
+  
+dd <- data[id.major, ]
+  dim(dd) # 6,548 x 726
+  
+  
+## choose samples with at least one OTU..
+id.valid <- which( colSums(dd>0) > 0 )
+  dim(dd)
+  length(id.valid) # 709
+
+dd.raw <- dd[,id.valid]
+  dim(dd.raw) # 6,260 x 741
+  dd.raw[1:3, 1:3]
+
+dd.clean <- dd.raw #[1:6258, ]
+  dim(dd.clean) # 6548 x 741
+
+### relative abundance
+for(j in 1:ncol(dd.clean)) dd.clean[,j] <- dd.clean[,j] / sum(dd.clean[,j])
+  colSums(dd.clean, na.rm=T)  
+  
+  ### any missing data? 
+  which( is.na(dd.clean), arr.ind = T)
+
+
+### Kullbeck-Leibler Distance
+KLD <- function(x,y) sum(x * log(x/y))
+### Jenssen-Shanno Distance = Weighted average of KL distance 
+JSD<- function(x,y) sqrt(0.5 * KLD(x, (x+y)/2) + 0.5 * KLD(y, (x+y)/2))
+
+### Calculate pairwise JSD between samples
+dist.JSD <- function(inMatrix, pseudocount=0.000001, ...) {
+	KLD <- function(x,y) sum(x *log(x/y))
+	JSD<- function(x,y) sqrt(0.5 * KLD(x, (x+y)/2) + 0.5 * KLD(y, (x+y)/2))
+	matrixColSize <- length(colnames(inMatrix))
+	matrixRowSize <- length(rownames(inMatrix))
+	colnames <- colnames(inMatrix)
+	resultsMatrix <- matrix(0, matrixColSize, matrixColSize)
+        
+  inMatrix = apply(inMatrix,1:2,function(x) ifelse (x==0,pseudocount,x))
+
+	for(i in 1:matrixColSize) {
+		for(j in 1:matrixColSize) { 
+			resultsMatrix[i,j]=JSD(as.vector(inMatrix[,i]),
+			as.vector(inMatrix[,j]))
+		}
+	}
+	colnames -> colnames(resultsMatrix) -> rownames(resultsMatrix)
+	as.dist(resultsMatrix)->resultsMatrix
+	attr(resultsMatrix, "method") <- "dist"
+	return(resultsMatrix) 
+}
+#data.dist=dist.JSD(data)
+
+
+### Calculate sample-wise distance
+data.dist=dist.JSD(dd.clean)
+
+#Uncomment next two lines if R packages are already installed
+#install.packages("cluster")
+#install.packages("clusterSim")
+library(cluster)
+library(clusterSim)
+
+### Test 
+k <- 3 # the nmber of cluster
+rs <- pam(as.dist(data.dist), k, diss=TRUE) # x is a distance matrix and k the number of clusters
+  rs$medoids
+
+
+pam.clustering=function(x,k) { # x is a distance matrix and k the number of clusters
+  require(cluster)
+  cluster = as.vector(pam(as.dist(x), k, diss=TRUE)$clustering)
+  return(cluster)
+}
+
+
+
+nclusters=NULL
+for (k in 1:15) { 
+  if (k==1) {
+    nclusters[k]=NA 
+  } else {
+    data.cluster_temp=pam.clustering(data.dist, k)
+    nclusters[k]=index.G1(t(dd.clean),data.cluster_temp,  d = data.dist,
+                          centrotypes = "medoids")
+  }
+}
+
+## to determine an optimal number of clusters
+plot(nclusters, type="h", xlab="k clusters", ylab="CH index",main="Optimal number of clusters", xlim=c(1,10), lwd=3) #, ylim=c(0, 25))
+
+
+#### Optimal k <- 5
+k <- 3
+data.cluster=pam.clustering(data.dist, k=k)
+
+### Silhouetter metric
+obs.silhouette=mean(silhouette(data.cluster, data.dist)[,3])
+  cat(obs.silhouette) 
+  data.cluster 
+  colnames(dd.clean)
+  
+names(data.cluster) <- colnames(dd.clean)
+
+tmp2 <- data.frame(id=colnames(dd.clean), cluster.PAM=data.cluster)
+  table(tmp2$cluster.PAM)
+write.csv(tmp2, file="./result.PAM.cluster_with no plant_v01.csv")  
+
+
+### Multi-dimensonal Scaling Plot.    
+require(ade4)
+
+data <- dd.clean
+obs.pca=dudi.pca(data.frame(t(data)), scannf=F, nf=10)
+obs.bet=bca(obs.pca, fac=as.factor(data.cluster), scannf=F, nf=k-1) 
+s.class(obs.bet$ls, fac=as.factor(data.cluster), grid=F,sub="Between-class analysis")
+```
+
+### Meta data 
+```{r}
+####
+#xxx <- read.table(file="./output/PAMclusters_v02.txt", sep="\t", header=T)
+xxx <- read.table(file="./PAMclusters_.txt", sep="\t", header=T)
+
+head(xxx)
+xx.table <- table(xxx$species, xxx$cluster.PAM)
+  head(xx.table)
+write.table(xx.table, file="./Table.Cluster-x-Species_New.txt", sep="\t")  
+```
+
+
+
