@@ -32,7 +32,7 @@ The OTU table was filtered to remove plant samples (Kingdom Plantae), OTUs with 
 
 ### Metadata collection
 
-For each sequenced species in our dataset, we added metadata for body mass and maximum longevity, if available. Body mass data was collected from the Pantheria archives (http://esapubs.org/archive/ecol/E090/184/), the Caviede Vidal dataset (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3689912/), and the Encyclopedia of Life (https://eol.org/). Body mass data was categorized into big, medium, and small. Maximum longevity data was obtained from AnAge (http://genomics.senescence.info/species/).
+For each sequenced species in our dataset, we added metadata for body mass and maximum longevity, if available. Body mass data was collected from the Pantheria archives (http://esapubs.org/archive/ecol/E090/184/), the Caviede Vidal dataset (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3689912/), and the Encyclopedia of Life (https://eol.org/). Body mass data was categorized to create three equally-sized groups (excluding Homo Sapiens): big (> 58.7 kg), medium (>19.57 kg, <= 58.7 kg), and small(<= 19.57 kg). Maximum longevity data was obtained from AnAge (http://genomics.senescence.info/species/).
 
 ### Unsupervised learning
 
