@@ -43,7 +43,7 @@ Tutorial for this approach is available at: https://enterotype.embl.de/enterotyp
 
 ### Cluster analysis
 
-We analyzed metadata variables that best explains the cluster membership using a PERMANOVA F-test. Pearson correlation was also used to examine correlations between metadata vairables.
+We analyzed metadata variables that best explains the cluster membership using a PERMANOVA F-test. Pearson correlation was also used to examine correlations between metadata variables.
 
 
 
