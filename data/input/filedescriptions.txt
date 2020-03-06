@@ -1,0 +1,3 @@
+Input files for data analyses:
+otutable.txt - Unfiltered OTU table for all animal samples
+EMPmetadata_animal - Metadata containing body mass and maximum longetivity information
