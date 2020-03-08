@@ -1,3 +1,9 @@
+'''
+filtered out any items from Earth Microbiome data that was not:
+
++ kingdom: animalia
++ habitat: internal
+'''
 import csv
 
 meta_file = "./13059_2019_1908_MOESM2_ESM.csv"

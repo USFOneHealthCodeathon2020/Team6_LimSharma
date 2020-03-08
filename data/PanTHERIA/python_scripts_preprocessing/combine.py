@@ -1,11 +1,19 @@
+'''
+Combined PanTHERIA data with Earth Microbiome data by matching the rows:
+
++ host_scientific_name from Earth Microbiome
+**and**
++ MSW05_Binomial from PanTHERIA
+'''
+
 import csv
 import pandas as pd
 
 pantheria_1 = "pantheria_combined.csv"
-# pantheria_2 = "PanTHERIA_1-0_WR93_Aug2008.csv"
+
 micro_file = "filtered_internal_animalia.csv"
 
-outfile = "test.csv"
+outfile = "panteria_microbe_combined.csv"
 
 df_1 = pd.read_csv(pantheria_1)
 # df_2 = pd.read_csv(pantheria_2)
