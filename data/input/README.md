@@ -1,4 +1,4 @@
-<h3>This folder contains input files used in data analyses:</h3>
+This folder contains input files used in data analyses:
 
 
 <b>otutable.txt</b> - Unfiltered OTU table for all animal samples
@@ -7,7 +7,7 @@
 
 ==
 
-<h3>Subfolder <u>sample_taxonomic_distribution</u> contains files/figures generated from analysis of the sample distribution:</h3>
+Subfolder <b>sample_taxonomic_distribution</b> contains files/figures generated from analysis of the sample distribution:
 
 <b>host_class_distribution.PNG</b> shows the number of samples per host taxonomic class
 
