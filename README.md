@@ -34,12 +34,12 @@ The OTU table was filtered to remove plant samples (Kingdom Plantae), and this t
 
 For each sequenced species in our dataset, we added metadata for body mass and maximum longevity, if available. Body mass data was collected from the Pantheria archives (http://esapubs.org/archive/ecol/E090/184/), the Caviede Vidal dataset (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3689912/), and the Encyclopedia of Life (https://eol.org/). Body mass data was categorized to create three equally-sized groups (excluding Homo Sapiens): big (> 58.7 kg), medium (>19.57 kg, <= 58.7 kg), and small(<= 19.57 kg). Maximum longevity data was obtained from AnAge (http://genomics.senescence.info/species/). The merged metadata table is available here at <b>data/input/EMPmetadata_animal.csv</b>.
 
-### Unsupervised Learning Analysis
+### Unsupervised learning analysis
 To explore distinct microbial composition structures across samples, an unsupervised cluster analysis was performed on the processed OTU table. OTUs present in less than 5% samples were discarded to obtain robust clusters. Sample-wise distance matrix was then computed using Jensen-Shannon distance on the OTU table of relative abundance. The PAM (partition around medoids) clustering analysis was completed using the cluster package in R software (doi:10.1038/nature09944). The optimal number of clusters was determined to maximize the Silhouette coefficient (doi: 10.1016/0377-0427(87)90125-7). To visualize results of the cluster analysis, principal component analysis was completed using ade4 package in R software. Individual samples were depicted on the space of top two principal components. 
 
 Tutorial for this approach is available at: https://enterotype.embl.de/enterotypes.html. Our R markdown file is also available here at <b>analysis/PAM_with_JSD_2020-02-21_v02.Rmd</b>/
 
 
-### ANOVA F-test and Correlation Analysis
+### ANOVA F-test and correlation analysis
 For feature selection, ANOVA F-tests were used to identify metadata variables with significant means variance differences between clusters. The tutorial for this approach is available at: https://towardsdatascience.com/anova-for-feature-selection-in-machine-learning-d9305e228476/. Pearson correlation analysis is performed to evaluate linear relationships between metadata variables. A step-by-step walkthrough of the ANOVA and correlation analyses is available at <b>analysis/Methods_ANOVA_correlations.pdf</b> and the python codes for these analyses are available at <b>analysis/Internal_Microbime_Analyses.ipynb</b>.
 
