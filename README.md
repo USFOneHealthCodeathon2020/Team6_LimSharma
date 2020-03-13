@@ -41,4 +41,5 @@ Tutorial for this approach is available at: https://enterotype.embl.de/enterotyp
 
 
 ### Comparative Beta-Diversity Analysis and Correlation Analysis
-We investigated whether each metadata variable is associated with beta diversity in terms of sample-wise distance.Bray-Curtis distance was compared for categorical variables using PERMANOVA F-test implemented in Python. Pearson correlation analysis is performed to evaluate linear relationships between OTU abundance and quantitative metadata variables.
+For feature selection, ANOVA F-tests were used to identify metadata variables with significant means variance differences between clusters. The tutorial for this approach is available at: https://towardsdatascience.com/anova-for-feature-selection-in-machine-learning-d9305e228476/. Pearson correlation analysis is performed to evaluate linear relationships between metadata variables. A step-by-step walkthrough of the ANOVA and correlation analyses is available at <b>analysis/Methods_ANOVA_correlations.pdf</b> and the python codes for these analyses are available at <b>analysis/Internal_Microbime_Analyses.ipynb</b>.
+
