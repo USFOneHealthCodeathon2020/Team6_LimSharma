@@ -34,20 +34,11 @@ The OTU table was filtered to remove plant samples (Kingdom Plantae), and this t
 
 For each sequenced species in our dataset, we added metadata for body mass and maximum longevity, if available. Body mass data was collected from the Pantheria archives (http://esapubs.org/archive/ecol/E090/184/), the Caviede Vidal dataset (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3689912/), and the Encyclopedia of Life (https://eol.org/). Body mass data was categorized to create three equally-sized groups (excluding Homo Sapiens): big (> 58.7 kg), medium (>19.57 kg, <= 58.7 kg), and small(<= 19.57 kg). Maximum longevity data was obtained from AnAge (http://genomics.senescence.info/species/). The merged metadata table is available here at <b>data/input/EMPmetadata_animal.csv</b>.
 
-### Unsupervised learning
-
-We used unsupervised learning on the processed OTU table to cluster the samples based on Jensen-Shannon Distances using the
-PAM (partition around medoids) algorithm implemented in R.
+### Unsupervised Learning Analysis
+To explore distinct microbial composition structures across samples, an unsupervised cluster analysis was performed on the processed OTU table. OTUs present in less than 5% samples were discarded to obtain robust clusters. Sample-wise distance matrix was then computed using Jensen-Shannon distance on the OTU table of relative abundance. The PAM (partition around medoids) clustering analysis was completed using the cluster package in R software (doi:10.1038/nature09944). The optimal number of clusters was determined to maximize the Silhouette coefficient (doi: 10.1016/0377-0427(87)90125-7). To visualize results of the cluster analysis, principal component analysis was completed using ade4 package in R software. Individual samples were depicted on the space of top two principal components. 
 
 Tutorial for this approach is available at: https://enterotype.embl.de/enterotypes.html. Our R markdown file is also available here at <b>analysis/PAM_with_JSD_2020-02-21_v02.Rmd</b>/
 
-### Cluster analysis
 
-We analyzed metadata variables that best explains the cluster membership using a PERMANOVA F-test. Pearson correlation was also used to examine correlations between metadata variables. Python codes for this are available in Jupyter notebook format in the analysis folder.
-
-
-
-
-
-
-
+### Comparative Beta-Diversity Analysis and Correlation Analysis
+We investigated whether each metadata variable is associated with beta diversity in terms of sample-wise distance.Bray-Curtis distance was compared for categorical variables using PERMANOVA F-test implemented in Python. Pearson correlation analysis is performed to evaluate linear relationships between OTU abundance and quantitative metadata variables.
