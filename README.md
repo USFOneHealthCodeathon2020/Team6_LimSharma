@@ -40,6 +40,6 @@ To explore distinct microbial composition structures across samples, an unsuperv
 Tutorial for this approach is available at: https://enterotype.embl.de/enterotypes.html. Our R markdown file is also available here at <b>analysis/PAM_with_JSD_2020-02-21_v02.Rmd</b>/
 
 
-### Comparative Beta-Diversity Analysis and Correlation Analysis
+### ANOVA F-test and Correlation Analysis
 For feature selection, ANOVA F-tests were used to identify metadata variables with significant means variance differences between clusters. The tutorial for this approach is available at: https://towardsdatascience.com/anova-for-feature-selection-in-machine-learning-d9305e228476/. Pearson correlation analysis is performed to evaluate linear relationships between metadata variables. A step-by-step walkthrough of the ANOVA and correlation analyses is available at <b>analysis/Methods_ANOVA_correlations.pdf</b> and the python codes for these analyses are available at <b>analysis/Internal_Microbime_Analyses.ipynb</b>.
 
