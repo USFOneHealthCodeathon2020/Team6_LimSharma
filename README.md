@@ -1,7 +1,7 @@
 # Team Animal
 <b>Team leads</b> (in alphabetical order): Jean Lim and Ravi Sharma <br>
-<b>Team members</b> (in alphabetical order): Maddie Barrow, Khandaker Tasnim Huq, Youngchul Kim, Ojas Natarajan, Matt Sumpter <br>
-<b>Faculty advisor</b>: Lynn Martin
+<b>Team members</b> (in alphabetical order): Maddie Barrow, Khandaker Tasnim Huq , Ojas Natarajan, Matt Sumpter <br>
+<b>Faculty advisor</b>: Lynn Martin and Youngchul Kim
 
 ## :: About our Project::
 
